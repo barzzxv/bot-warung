@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f0c29"><title>WarungBot 🛒</title>
+<style>
+:root{--bg:#0d0b24;--card:rgba(255,255,255,.07);--bd:rgba(255,255,255,.14);--tx:#f4f3ff;--mu:#a9a6d0;--a:#ff7a59;--b:#7c5cff;--c:#22d3a6;--bot:rgba(255,255,255,.09);--usr:linear-gradient(135deg,#7c5cff,#ff7a59)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f3f1ff;--card:rgba(255,255,255,.7);--bd:rgba(80,60,160,.15);--tx:#1d1745;--mu:#6b6791;--bot:rgba(255,255,255,.85)}}
+:root[data-theme="light"]{--bg:#f3f1ff;--card:rgba(255,255,255,.7);--bd:rgba(80,60,160,.15);--tx:#1d1745;--mu:#6b6791;--bot:rgba(255,255,255,.85)}
+:root[data-theme="dark"]{--bg:#0d0b24}
+*{box-sizing:border-box;margin:0}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{height:100%}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden}
+.aur{position:fixed;inset:0;z-index:0;overflow:hidden}
+.aur i{position:absolute;width:55vmax;height:55vmax;border-radius:50%;filter:blur(90px);opacity:.45;animation:fl 18s ease-in-out infinite alternate}
+.aur i:nth-child(1){background:#7c5cff;top:-20%;left:-10%}.aur i:nth-child(2){background:#ff7a59;bottom:-25%;right:-10%;animation-delay:-6s}.aur i:nth-child(3){background:#22d3a6;top:30%;left:40%;opacity:.25;animation-delay:-12s}
+@keyframes fl{to{transform:translate(12vmax,8vmax) scale(1.2)}}
+.app{position:relative;z-index:1;height:100%;max-width:1100px;margin:auto;display:grid;grid-template-columns:260px 1fr;gap:14px;padding:14px}
+.glass{background:var(--card);border:1px solid var(--bd);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-radius:22px}
+aside{padding:18px;display:flex;flex-direction:column;gap:12px;overflow:auto}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px}
+.mascot{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--b),var(--a));display:grid;place-items:center;font-size:24px;animation:bob 3s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-5px) rotate(-6deg)}}
+.st{padding:12px 14px;border-radius:16px;background:var(--card);border:1px solid var(--bd);transition:transform .3s}
+.st:hover{transform:translateY(-3px) scale(1.02)}
+.st small{color:var(--mu);display:block}.st b{font-size:20px;background:linear-gradient(90deg,var(--c),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tg{margin-top:auto;background:none;border:1px solid var(--bd);color:var(--tx);border-radius:12px;padding:8px;cursor:pointer}
+main{display:flex;flex-direction:column;min-height:0;overflow:hidden}
+header{padding:14px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--bd)}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:0 0 0 0 var(--c);animation:pu 2s infinite}
+@keyframes pu{70%{box-shadow:0 0 0 10px transparent}}
+#log{flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth}
+.m{max-width:85%;padding:11px 15px;border-radius:18px;animation:pop .45s cubic-bezier(.2,1.4,.4,1) both;word-wrap:break-word}
+.m.b{background:var(--bot);border:1px solid var(--bd);border-bottom-left-radius:4px;align-self:flex-start}
+.m.u{background:var(--usr);color:#fff;border-bottom-right-radius:4px;align-self:flex-end}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.85)}}
+.ty{display:flex;gap:5px;padding:14px 16px}.ty i{width:8px;height:8px;border-radius:50%;background:var(--mu);animation:jp 1s infinite}.ty i:nth-child(2){animation-delay:.15s}.ty i:nth-child(3){animation-delay:.3s}
+@keyframes jp{40%{transform:translateY(-7px);background:var(--a)}}
+.pc{margin-top:8px;padding:10px 12px;border-radius:14px;background:rgba(127,127,200,.12);border:1px solid var(--bd);animation:pop .5s both}
+.pc:nth-child(2){animation-delay:.1s}.pc:nth-child(3){animation-delay:.2s}.pc:nth-child(4){animation-delay:.3s}.pc:nth-child(5){animation-delay:.4s}.pc:nth-child(6){animation-delay:.5s}
+.pc .r{display:flex;justify-content:space-between;gap:8px;font-size:13px}.pc .r span:last-child{color:var(--mu)}
+.bar{height:7px;border-radius:9px;background:rgba(127,127,200,.2);margin-top:7px;overflow:hidden}
+.bar u{display:block;height:100%;border-radius:9px;width:var(--w);background:var(--k);animation:gr 1.1s cubic-bezier(.2,.8,.2,1) both}
+@keyframes gr{from{width:0}}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 14px 8px;scrollbar-width:none}
+.chips button{flex:none;border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:7px 13px;border-radius:99px;cursor:pointer;font-size:13px;transition:.25s}
+.chips button:hover{background:var(--b);color:#fff;transform:translateY(-3px) rotate(-2deg)}
+.in{display:flex;gap:8px;padding:10px 14px 14px}
+.in input{flex:1;min-width:0;padding:13px 16px;border-radius:16px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font:inherit;outline:none;transition:.25s}
+.in input:focus{border-color:var(--b);box-shadow:0 0 0 4px rgba(124,92,255,.25)}
+.in button{width:46px;border:0;border-radius:15px;cursor:pointer;font-size:18px;color:#fff;background:linear-gradient(135deg,var(--b),var(--a));transition:transform .2s}
+.in button:hover{transform:scale(1.1) rotate(8deg)}.in button:active{transform:scale(.9)}
+.in #mic{background:var(--card);border:1px solid var(--bd)}.in #mic.on{background:#ef4444;animation:pu 1s infinite}
+.cf{position:fixed;z-index:9;pointer-events:none;font-size:22px;animation:cf 1.4s ease-out forwards}
+@keyframes cf{to{transform:translate(var(--x),var(--y)) rotate(540deg);opacity:0}}
+.ok{color:var(--c);font-weight:700}.er{color:#ff6b6b;font-weight:700}
+[hidden]{display:none!important}
+.aib{margin-left:auto;border:0;background:linear-gradient(135deg,var(--b),var(--a));color:#fff;border-radius:99px;padding:7px 14px;cursor:pointer;font-size:13px;font-weight:600;animation:gw 2.5s infinite}
+.aib.off{background:var(--card);color:var(--tx);border:1px solid var(--bd);animation:none}
+@keyframes gw{50%{box-shadow:0 0 20px rgba(124,92,255,.8)}}
+.chips .aic{border-color:var(--b);background:linear-gradient(135deg,rgba(124,92,255,.35),rgba(255,122,89,.35))}
+@media(max-width:760px){.app{grid-template-columns:1fr;grid-template-rows:auto 1fr;padding:8px;gap:8px}
+aside{flex-direction:row;padding:10px;overflow-x:auto}.logo,.tg{display:none}.st{flex:none;min-width:130px}.m{max-width:92%}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important}}
+</style></head><body>
+<div class="aur"><i></i><i></i><i></i></div>
+<div class="app">
+<aside class="glass">
+<div class="logo"><div class="mascot">🛒</div>WarungBot</div>
+<div class="st"><small>📦 Jenis produk</small><b id="s1">0</b></div>
+<div class="st"><small>🧱 Total stok</small><b id="s2">0</b></div>
+<div class="st"><small>💰 Omzet</small><b id="s3">0</b></div>
+<div class="st"><small>🏦 Nilai modal stok</small><b id="s4">0</b></div>
+<button class="tg" id="tg">🌓 Ganti tema</button>
+</aside>
+<main class="glass">
+<header><div class="dot"></div><div><b>Asisten Warung</b><div style="font-size:12px;color:var(--mu)">Online • terhubung ke warung_db</div></div><button class="aib" id="ai" hidden>✨ AI: ON</button></header>
+<div id="log"></div>
+<div class="chips" id="chips"></div>
+<div class="in"><button id="mic" title="Bicara">🎤</button><input id="q" placeholder="Tanya stok, harga, laba… atau 'jual 2 aqua'" autocomplete="off"><button id="go">➤</button></div>
+</main></div>
+<script>
+const D={cat:{1:'Makanan',2:'Minuman',3:'Sembako'},
+P:[[1,1,'Indomie Goreng','IND001',2500,3500,64,10],[2,2,'Aqua 600ml','AQU001',2500,3000,30,10],[3,3,'Gula 1 Kg','GUL001',15000,18000,15,5],[4,1,'Kopi ABC','KOP001',1800,2500,25,5],[5,2,'Teh Botol','TEH001',3500,5000,20,5]].map(a=>({id:a[0],c:a[1],n:a[2],sku:a[3],buy:a[4],sell:a[5],stock:a[6],min:a[7]})),
+O:[{id:1,total:16500,items:[[1,3],[2,2]],at:'01 Okt 2026 02:45'}],
+H:[{p:1,t:'IN',q:20,n:'Penambahan stok',at:'01 Okt 02:44'},{p:1,t:'OUT',q:3,n:'Penjualan',at:'01 Okt 02:46'},{p:2,t:'OUT',q:2,n:'Penjualan',at:'01 Okt 02:46'}]};
+let S=D;try{const r=localStorage.getItem('warungbot_v1');if(r)S=JSON.parse(r)}catch(e){}
+const save=()=>{try{localStorage.setItem('warungbot_v1',JSON.stringify(S))}catch(e){}};
+const $=i=>document.getElementById(i),log=$('log'),fmt=n=>'Rp'+Math.round(n).toLocaleString('id-ID');
+const cats={1:'Makanan',2:'Minuman',3:'Sembako',4:'Rokok',5:'Kebersihan',6:'Perawatan',7:'Lainnya'};
+const pn=id=>S.P.find(p=>p.id==id);
+function count(el,to,money){const from=+el.dataset.v||0;el.dataset.v=to;const t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/800),v=from+(to-from)*(1-Math.pow(1-k,3));el.textContent=money?fmt(v):Math.round(v).toLocaleString('id-ID');if(k<1)requestAnimationFrame(f)})(t0)}
+function stats(){count($('s1'),S.P.length);count($('s2'),S.P.reduce((a,p)=>a+p.stock,0));count($('s3'),S.O.reduce((a,o)=>a+o.total,0),1);count($('s4'),S.P.reduce((a,p)=>a+p.stock*p.buy,0),1)}
+function add(html,who,raw){const d=document.createElement('div');d.className='m '+who;raw?d.textContent=html:d.innerHTML=html;log.appendChild(d);log.scrollTop=log.scrollHeight;return d}
+function card(p){const lo=p.stock<=p.min,mid=p.stock<=p.min*2,k=lo?'#ff6b6b':mid?'#fbbf24':'#22d3a6';
+return `<div class="pc"><div class="r"><b>${p.n}</b><span>${cats[p.c]||'-'} • ${p.sku}</span></div><div class="r"><span>Stok <b style="color:${k}">${p.stock}</b> (min ${p.min})</span><span>${fmt(p.sell)}</span></div><div class="bar"><u style="--w:${Math.min(100,p.stock/80*100)}%;--k:${k}"></u></div></div>`}
+function boom(){for(let i=0;i<16;i++){const s=document.createElement('span');s.className='cf';s.textContent=['🎉','✨','💸','🛍️','⭐'][i%5];s.style.left=innerWidth/2+'px';s.style.top=innerHeight*.6+'px';s.style.setProperty('--x',(Math.random()-.5)*400+'px');s.style.setProperty('--y',-Math.random()*320-40+'px');document.body.appendChild(s);setTimeout(()=>s.remove(),1500)}}
+function find(t){return S.P.find(p=>p.n.toLowerCase().split(' ').some(w=>w.length>2&&!/^\d/.test(w)&&t.includes(w)))}
+const now=()=>new Date().toLocaleString('id-ID',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+function reply(raw){const t=raw.toLowerCase(),p=find(t),n=(t.match(/\d+/)||[])[0],q=n?+n:1;
+const has=(...w)=>w.some(x=>t.includes(x));
+if(/^(hai|halo|hi|hello|pagi|siang|malam)/.test(t))return 'Halo juragan! 👋 Aku <b>WarungBot</b>, siap bantu cek stok, harga, laba, sampai catat penjualan. Coba tap salah satu tombol di bawah ya!';
+if(has('bantuan','help','bisa apa','menu'))return '<b>Yang bisa kulakukan:</b><br>📦 <i>stok</i> / <i>stok aqua</i><br>🏷️ <i>harga gula</i><br>⚠️ <i>stok menipis</i><br>💸 <i>laba</i> • 💰 <i>omzet</i> • 🏆 <i>terlaris</i><br>🧾 <i>riwayat stok</i> • 🗂️ <i>kategori</i><br>🛒 <i>jual 2 aqua</i> • ➕ <i>tambah stok 10 teh</i><br>♻️ <i>reset</i>';
+if(has('jual','beli','terjual')&&p){if(p.stock<q)return `<span class="er">Waduh, stok ${p.n} cuma ${p.stock}.</span> Nggak cukup untuk ${q} pcs 😅`;
+p.stock-=q;const tot=q*p.sell;S.O.push({id:S.O.length+1,total:tot,items:[[p.id,q]],at:now()});S.H.push({p:p.id,t:'OUT',q,n:'Penjualan',at:now()});save();stats();boom();
+return `<span class="ok">Transaksi tercatat! ✅</span><br>${q} × ${p.n} = <b>${fmt(tot)}</b><br>Sisa stok: ${p.stock}`+(p.stock<=p.min?'<br><span class="er">⚠️ Stok sudah di bawah minimum, waktunya restok!</span>':'')+card(p)}
+if(has('tambah','restok','masuk','isi')&&p){p.stock+=q;S.H.push({p:p.id,t:'IN',q,n:'Penambahan stok',at:now()});save();stats();return `<span class="ok">Stok ${p.n} bertambah ${q} ➕</span>`+card(p)}
+if(has('menipis','habis','hampir','minimum','kurang')){const l=S.P.filter(x=>x.stock<=x.min);return l.length?`<span class="er">⚠️ ${l.length} produk perlu restok:</span>`+l.map(card).join(''):'Aman jaya! 🎉 Semua stok masih di atas batas minimum.'}
+if(has('laba','untung','profit','margin')){if(p){const m=p.sell-p.buy;return `Laba <b>${p.n}</b>: ${fmt(m)}/pcs (${(m/p.buy*100).toFixed(0)}% dari modal).<br>Potensi jika stok habis: <b>${fmt(m*p.stock)}</b>`}
+let l=0;S.O.forEach(o=>o.items.forEach(([i,c])=>{const x=pn(i);l+=(x.sell-x.buy)*c}));return `💸 Total laba dari penjualan tercatat: <b>${fmt(l)}</b><br>Ketik <i>laba gula</i> untuk margin per produk.`}
+if(has('omzet','penjualan','pendapatan','transaksi','order')){const tot=S.O.reduce((a,o)=>a+o.total,0);return `💰 Omzet: <b>${fmt(tot)}</b> dari <b>${S.O.length}</b> transaksi.<br>Terakhir: ${S.O[S.O.length-1].at} — ${fmt(S.O[S.O.length-1].total)}`}
+if(has('terlaris','laris','populer')){const m={};S.O.forEach(o=>o.items.forEach(([i,c])=>m[i]=(m[i]||0)+c));const r=Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,3);return '🏆 <b>Terlaris:</b><br>'+r.map((x,i)=>`${['🥇','🥈','🥉'][i]} ${pn(x[0]).n} — ${x[1]} pcs`).join('<br>')}
+if(has('riwayat','history','mutasi','log')){return '🧾 <b>Riwayat stok terbaru:</b><br>'+S.H.slice(-6).reverse().map(h=>`${h.t=='IN'?'🟢 +':'🔴 −'}${h.q} ${pn(h.p).n} <span style="color:var(--mu)">• ${h.n} (${h.at})</span>`).join('<br>')}
+if(has('kategori')){return '🗂️ <b>Kategori:</b><br>'+Object.entries(cats).map(([i,c])=>`• ${c} (${S.P.filter(x=>x.c==i).length} produk)`).join('<br>')}
+if(has('modal','aset')){return `🏦 Nilai modal stok saat ini: <b>${fmt(S.P.reduce((a,x)=>a+x.stock*x.buy,0))}</b><br>Potensi omzet: <b>${fmt(S.P.reduce((a,x)=>a+x.stock*x.sell,0))}</b>`}
+if(has('harga','berapa','price')&&p)return `🏷️ <b>${p.n}</b><br>Beli: ${fmt(p.buy)} → Jual: <b>${fmt(p.sell)}</b>`+card(p);
+if(has('harga')){return '🏷️ <b>Daftar harga:</b><br>'+S.P.map(x=>`• ${x.n}: <b>${fmt(x.sell)}</b>`).join('<br>')}
+if(p||has('stok','stock','produk','barang','cek'))return p?card(p):`📦 Ada <b>${S.P.length}</b> produk:`+S.P.map(card).join('');
+if(has('reset')){localStorage.removeItem('warungbot_v1');S=JSON.parse(JSON.stringify(D));stats();return '♻️ Data dikembalikan ke kondisi awal database.'}
+if(has('makasih','terima kasih','thanks'))return 'Sama-sama juragan! 🙏 Semoga dagangan laris manis 🔥';
+return 'Hmm, aku belum paham 🤔 Coba ketik <b>bantuan</b> untuk lihat daftar perintah.'}
+let SM=null,aiOn=true,busy=false,HIST=[];
+function md(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/^[-*] (.+)$/gm,'• $1').replace(/\n/g,'<br>')}
+function snap(){return JSON.stringify({produk:S.P.map(p=>({id:p.id,nama:p.n,kategori:cats[p.c],harga_beli:p.buy,harga_jual:p.sell,stok:p.stock,stok_min:p.min})),transaksi:S.O.map(o=>({total:o.total,waktu:o.at,item:o.items.map(([i,c])=>({produk:pn(i).n,qty:c}))})),riwayat_stok:S.H.slice(-10).map(h=>({produk:pn(h.p).n,tipe:h.t,qty:h.q,waktu:h.at}))})}
+const obj={type:'object',properties:{product_id:{type:'number'},qty:{type:'number'}},required:['product_id','qty']};
+const tools=[{name:'jual_produk',description:'Catat penjualan: kurangi stok dan buat transaksi baru',inputSchema:obj,execute:({product_id,qty})=>{const p=pn(product_id);qty=Math.floor(+qty);if(!p||qty<1)throw new Error('Produk/jumlah tidak valid');if(p.stock<qty)throw new Error('Stok '+p.n+' hanya '+p.stock);p.stock-=qty;S.O.push({id:S.O.length+1,total:qty*p.sell,items:[[p.id,qty]],at:now()});S.H.push({p:p.id,t:'OUT',q:qty,n:'Penjualan (AI)',at:now()});save();stats();boom();return 'Terjual '+qty+' '+p.n+', total Rp'+qty*p.sell+', sisa stok '+p.stock}},
+{name:'restok_produk',description:'Tambah stok produk',inputSchema:obj,execute:({product_id,qty})=>{const p=pn(product_id);qty=Math.floor(+qty);if(!p||qty<1)throw new Error('Produk/jumlah tidak valid');p.stock+=qty;S.H.push({p:p.id,t:'IN',q:qty,n:'Penambahan stok (AI)',at:now()});save();stats();return 'Stok '+p.n+' kini '+p.stock}}];
+async function ask(v,b){
+const pre='Kamu WarungBot, asisten AI pemilik warung di Indonesia. Jawab dalam bahasa Indonesia, santai, ramah, ringkas (maks ~120 kata), emoji secukupnya, boleh pakai **tebal** dan daftar "- ". Untuk angka gunakan HANYA data warung berikut, jangan mengarang. Untuk mencatat penjualan atau restok, panggil tool yang tersedia. Data warung terkini (JSON, mata uang Rupiah): '+snap()+'\n\nPesan pemilik: ';
+try{const r=await SM([...HIST.slice(-6),{role:'user',content:pre+v}],{cache:false,modelTier:'quick',tools,onText:({text})=>{b.innerHTML=md(text);log.scrollTop=log.scrollHeight}});b.innerHTML=md(r.text);HIST.push({role:'user',content:v},{role:'assistant',content:r.text})}
+catch(e){b.innerHTML=(e&&e.code=='rate_limited'?'⏳ AI lagi sibuk, kujawab dengan mode biasa ya.<br>':'⚠️ AI belum bisa dipakai, kujawab dengan mode biasa.<br>')+reply(v)}
+log.scrollTop=log.scrollHeight}
+function send(v,forceAI){v=(v||$('q').value).trim();if(!v||busy)return;$('q').value='';add(v,'u',1);
+if(SM&&(aiOn||forceAI)){busy=true;const b=add('<div class="ty"><i></i><i></i><i></i></div>','b');ask(v,b).finally(()=>busy=false);return}
+const ty=add('<div class="ty"><i></i><i></i><i></i></div>','b');ty.style.padding='0';
+setTimeout(()=>{ty.remove();add(reply(v),'b')},500+Math.random()*400)}
+$('go').onclick=()=>send();$('q').onkeydown=e=>{if(e.key=='Enter')send()};
+['📦 Stok','⚠️ Stok menipis','🏷️ Harga','💸 Laba','💰 Omzet','🏆 Terlaris','🧾 Riwayat stok','🗂️ Kategori','🛒 Jual 1 indomie','❓ Bantuan'].forEach(c=>{const b=document.createElement('button');b.textContent=c;b.onclick=()=>send(c.replace(/^\S+\s/,''));$('chips').appendChild(b)});
+$('tg').onclick=()=>{const r=document.documentElement,l=(r.dataset.theme||(matchMedia('(prefers-color-scheme:light)').matches?'light':'dark'))=='light';r.dataset.theme=l?'dark':'light'};
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+$('mic').onclick=()=>{if(!SR){add('Browser ini belum mendukung input suara 🎤','b');return}const r=new SR();r.lang='id-ID';$('mic').classList.add('on');r.onresult=e=>send(e.results[0][0].transcript);r.onend=()=>$('mic').classList.remove('on');try{r.start()}catch(e){}};
+try{const ic="data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="24" fill="#7c5cff"/><text x="50" y="68" font-size="56" text-anchor="middle">🛒</text></svg>');
+const l=document.createElement('link');l.rel='manifest';l.href=URL.createObjectURL(new Blob([JSON.stringify({name:'WarungBot',short_name:'WarungBot',display:'standalone',background_color:'#0d0b24',theme_color:'#0d0b24',start_url:'.',icons:[{src:ic,sizes:'512x512',type:'image/svg+xml'}]})],{type:'application/manifest+json'}));document.head.appendChild(l)}catch(e){}
+if(window.claude)claude.use('sample').then(s=>{if(!s)return;SM=s;const t=$('ai');t.hidden=false;t.onclick=()=>{aiOn=!aiOn;t.textContent='✨ AI: '+(aiOn?'ON':'OFF');t.classList.toggle('off',!aiOn)};[['✨ Saran bisnis','Analisis data warung dan beri 3 saran bisnis konkret untuk minggu ini.'],['✨ Prediksi restok','Produk mana yang sebaiknya direstok duluan dan berapa jumlahnya? Beri alasan singkat.'],['✨ Caption promo','Buatkan caption promo WhatsApp/Instagram yang menarik untuk produk dengan margin terbaik.']].forEach(([c,q])=>{const b=document.createElement('button');b.textContent=c;b.className='aic';b.onclick=()=>send(q,1);$('chips').prepend(b)});add('✨ <b>Mode AI aktif!</b> Sekarang kamu bisa ngobrol bebas, misalnya <i>"kira-kira stok apa yang cepat habis?"</i> atau <i>"tolong catat jual 5 teh botol"</i>.','b')}).catch(()=>{});
+stats();setTimeout(()=>add('Halo juragan! 👋 Aku <b>WarungBot</b> 🛒<br>Aku terhubung ke data warungmu: <b>5 produk</b>, <b>1 transaksi</b>. Mau cek apa hari ini?','b'),400);
+</script></body></html>
